@@ -1,0 +1,84 @@
+experiment_name: "pwem"
+
+# configs for dataloader
+datasource: "pygeo"
+dataset_name: "CiteSeer"
+feature_row_normalization: True
+split: "planetoid"
+
+
+# configs for model
+## configs for backbone
+backbone_name: "gcn"
+path: "/results/pwem/Cornel"
+in_channel:
+out_channel:
+num_layers: 2
+num_heads: 8 # will be replaced if do hyperparameter search
+#num_output_heads: 8 # gat pubmed
+num_output_heads: 1
+hidden_size: 16 # gcn
+#hidden_size: 8 # gat
+dropout_prob: 0.5 # gcn
+#dropout_prob: 0.6 # gat
+
+## redistribution version
+#redistribution: "average"
+redistribution: "average_edge_rezero"
+#redistribution: "center_edge_rezero"
+#redistribution: "center"
+
+## rezero version
+rezero: True
+rezero_require_grad: True
+rezero_size: 1
+rezero_value: 0
+
+## inference version
+mean_field: True
+use_redis_MF: False
+
+
+# configs for trainer
+optimizer_name: "adam"
+criterion_name: "pwLoss"
+learning_rate: 0.1 # gcn
+#learning_rate: 0.005 # gat
+weight_decay: !!float 5e-4 # will be replaced if do hyperparameter search
+change_lr: False
+metric: "accuracy"
+num_run: 200
+stopping_name: "pwemStoppingCriterion"
+patience: 50
+change_EMPatience: False
+init_best_val_acc: 0
+soft: True
+verbose: False
+tensorboard: "pwem_center"
+pre_trained_steps: 0
+
+# configs for train
+#train_mode: "pre-training"
+#train_mode: "center_redist"
+#train_mode: "center_edge_rezero"
+train_mode: "average_edge_rezero"
+
+fixed: False
+use_gold: True
+draw: "exp"
+num_EM_steps: 1000
+num_m_steps: 50
+num_e_steps: 1
+
+
+# configs for init module parameters
+seed: 98
+cuda: True
+count: 0
+
+
+num_train_per_class: 20
+num_val: 500
+num_test: 1000
+
+

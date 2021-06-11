@@ -1,0 +1,44 @@
+experiment_name: "gat"
+
+# configs for dataloader
+datasource: "pygeo"
+dataset_name: "CORA"
+feature_row_normalization: True
+split: "planetoid"
+
+# configs for model
+in_channel:
+out_channel:
+num_layers: 2
+num_heads: 8 # will be replaced if do hyperparameter search
+#num_output_heads: 1
+num_output_heads: 8
+#hidden_size: 8 # will be replaced if do hyperparameter search
+hidden_size: 16 # will be replaced if do hyperparameter search
+dropout_prob: 0.6 # will be replaced if do hyperparameter search
+
+# configs for trainer
+optimizer_name: "adam"
+criterion_name: "crossEntropy"
+learning_rate: 0.005 # will be replaced if do hyperparameter search
+weight_decay: !!float 5e-4 # will be replaced if do hyperparameter search
+metric: "accuracy"
+num_run: 200
+stopping_name: "gcnStoppingCriterion"
+patience: 50
+init_best_val_acc: 0
+soft: True
+verbose: False
+path: "/results/gat"
+
+# configs for init module parameters
+seed: 98
+cuda: True
+count: 0
+
+num_train_per_class: 20
+num_val: 500
+num_test: 1000
+
+
+
